@@ -7,8 +7,8 @@ android {
         applicationId "xyz.jcdc.diwata"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 3
-        versionName "Cutterpillow"
+        versionCode 4
+        versionName "Downtown"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

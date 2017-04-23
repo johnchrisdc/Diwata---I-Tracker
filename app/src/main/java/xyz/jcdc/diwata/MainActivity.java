@@ -64,13 +64,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private LatLng prevLatLng_diwata;
     private LatLng prevLatLng_diwata_path;
-    private LatLng prevLatLng_diwata_path_2;
 
     private Diwata diwatang_ina;
     private LatLng diwata_latlng;
 
     private List<Polyline> polyline_diwata = new ArrayList<>();
-    private List<Polyline> polyline_diwata_2 = new ArrayList<>();
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
@@ -158,12 +156,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onPathReceived(Path path) {
-                setPath_2(path);
+                setPath(path);
             }
         }, 2).execute();
     }
 
     private void setPath(Path p) {
+        prevLatLng_diwata_path = null;
         for (Features features : p.getFeatures()) {
             LatLng latLng = new LatLng(features.getGeometry().getCoordinates().get(1), features.getGeometry().getCoordinates().get(0));
 
@@ -177,23 +176,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
             prevLatLng_diwata_path = latLng;
-        }
-    }
-
-    private void setPath_2(Path p) {
-        for (Features features : p.getFeatures()) {
-            LatLng latLng = new LatLng(features.getGeometry().getCoordinates().get(1), features.getGeometry().getCoordinates().get(0));
-
-            if (prevLatLng_diwata_path_2 != null) {
-                Polyline polyline = googleMap.addPolyline(new PolylineOptions()
-                        .add(prevLatLng_diwata_path_2, latLng)
-                        .width(2)
-                        .color(ContextCompat.getColor(context, R.color.dilawan)));
-
-                polyline_diwata_2.add(polyline);
-            }
-
-            prevLatLng_diwata_path_2 = latLng;
         }
     }
 

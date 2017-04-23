@@ -40,6 +40,7 @@ import butterknife.ButterKnife;
 import xyz.jcdc.diwata.helper.NumberHelper;
 import xyz.jcdc.diwata.model.Diwata;
 import xyz.jcdc.diwata.model.Features;
+import xyz.jcdc.diwata.model.Geometry;
 import xyz.jcdc.diwata.model.Path;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private BitmapDescriptor diwataIcon;
 
     private LatLng prevLatLng_diwata;
-    private LatLng prevLatLng_diwata_path;
 
     private Diwata diwatang_ina;
     private LatLng diwata_latlng;
@@ -162,21 +162,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setPath(Path p) {
-        prevLatLng_diwata_path = null;
+        PolylineOptions polylineOptions = new PolylineOptions()
+                .width(2)
+                .color(ContextCompat.getColor(context, R.color.dilawan));
+
         for (Features features : p.getFeatures()) {
-            LatLng latLng = new LatLng(features.getGeometry().getCoordinates().get(1), features.getGeometry().getCoordinates().get(0));
-
-            if (prevLatLng_diwata_path != null) {
-                Polyline polyline = googleMap.addPolyline(new PolylineOptions()
-                        .add(prevLatLng_diwata_path, latLng)
-                        .width(2)
-                        .color(ContextCompat.getColor(context, R.color.dilawan)));
-
-                polyline_diwata.add(polyline);
-            }
-
-            prevLatLng_diwata_path = latLng;
+            Geometry geometry = features.getGeometry();
+            LatLng latLng = new LatLng(geometry.getCoordinates().get(1), geometry.getCoordinates().get(0));
+            polylineOptions.add(latLng);
         }
+
+        googleMap.addPolyline(polylineOptions);
     }
 
     private void getDiwataPosition() {

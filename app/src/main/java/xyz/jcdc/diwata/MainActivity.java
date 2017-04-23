@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -87,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @BindView(R.id.info)
     CardView info;
 
-    @BindView(R.id.diwata_psa)
-    TextView diwata_psa;
+    @BindView(R.id.diwata_pst)
+    TextView diwata_pst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,11 +237,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 getDiwataPosition();
             }
         }, 1000);
-
     }
 
     private void setDiwataInfo(Diwata diwata) {
         info.setVisibility(View.VISIBLE);
+
+        long unixTime = Math.round(diwata.getProperties().getTimestamp());
+        Date time = new Date(unixTime * 1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
+
+        diwata_pst.setText(dateFormat.format(time));
         diwata_latitude.setText( NumberHelper.toDecimalPlaces(diwata.getGeometry().getCoordinates().get(1)) );
         diwata_longitude.setText( NumberHelper.toDecimalPlaces(diwata.getGeometry().getCoordinates().get(0)) );
         diwata_elevation.setText( NumberHelper.toDecimalPlaces( (diwata.getProperties().getElevation() / 1000) ) + " km" );

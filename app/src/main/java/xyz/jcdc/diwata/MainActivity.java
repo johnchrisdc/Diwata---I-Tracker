@@ -3,15 +3,13 @@ package xyz.jcdc.diwata;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -29,6 +27,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -39,17 +40,23 @@ import butterknife.ButterKnife;
 import xyz.jcdc.diwata.helper.NumberHelper;
 import xyz.jcdc.diwata.model.Diwata;
 import xyz.jcdc.diwata.model.Features;
-import xyz.jcdc.diwata.model.Geometry;
 import xyz.jcdc.diwata.model.Path;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private final int MAP_TYPE_NORMAL = 0;
+    private final int MAP_TYPE_HYBRID = 1;
+    private final int MAP_TYPE_SATELLITE = 2;
+    private final int MAP_TYPE_TERRAIN = 3;
+
+    private int map_type = MAP_TYPE_NORMAL;
 
     private Context context;
 
     private GoogleMap googleMap;
     private Marker marker_diwata;
 
-    private MaterialDialog materialDialog;
+    private MaterialDialog materialDialog_position;
 
     private Timer diwataTimer;
 
@@ -80,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @BindView(R.id.info)
     CardView info;
 
+    @BindView(R.id.diwata_psa)
+    TextView diwata_psa;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         diwataIcon = BitmapDescriptorFactory.fromResource(R.mipmap.marker_diwata);
 
-        materialDialog = new MaterialDialog.Builder(context)
+        materialDialog_position = new MaterialDialog.Builder(context)
                 .title("Please wait")
                 .content("Getting Diwata-I position")
                 .progress(true, 0)
@@ -196,11 +206,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onDiwataPositionReceived(Diwata diwata) {
-                if (materialDialog.isShowing()) {
+                if (materialDialog_position.isShowing()) {
                     runOnUiThread(new TimerTask() {
                         @Override
                         public void run() {
-                            materialDialog.dismiss();
+                            materialDialog_position.dismiss();
                         }
                     });
                 }
@@ -255,25 +265,64 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         diwata_elevation.setText( NumberHelper.toDecimalPlaces( (diwata.getProperties().getElevation() / 1000) ) + " km" );
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    private void showMapTypeDialog() {
+        new MaterialDialog.Builder(this)
+                .title("Map type")
+                .items(R.array.map_type)
+                .itemsCallbackSingleChoice(map_type, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        map_type = which;
+                        setMapType(map_type);
+                        return true;
+                    }
+                })
+                .positiveText("Apply")
+                .show();
+    }
+
+    private void setMapType(int type) {
+        switch (type) {
+
+            case MAP_TYPE_NORMAL:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                break;
+
+            case MAP_TYPE_HYBRID:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                break;
+
+            case MAP_TYPE_SATELLITE:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                break;
+
+            case MAP_TYPE_TERRAIN:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                break;
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_map_type) {
+            showMapTypeDialog();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

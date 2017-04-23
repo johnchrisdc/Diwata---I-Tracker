@@ -254,11 +254,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .itemsCallbackSingleChoice(map_type, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        map_type = which;
-                        setMapType(map_type);
+                        if (which != map_type) {
+                            map_type = which;
+                            setMapType(map_type);
+                        }
+
                         return true;
                     }
                 })
+                .negativeText("Cancel")
                 .positiveText("Apply")
                 .show();
     }

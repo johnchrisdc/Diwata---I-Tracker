@@ -197,8 +197,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     });
                 }
 
-                diwatang_ina = diwata;
-                setDiwataPosition(diwatang_ina);
+                if (diwata != null) {
+                    diwatang_ina = diwata;
+
+                    setDiwataInfo(diwata);
+                    setDiwataPosition(diwatang_ina);
+                }
+
             }
         }).execute();
     }
@@ -224,8 +229,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         prevLatLng_diwata = diwata_latlng;
-
-        setDiwataInfo(diwata);
 
         if (diwataTimer != null)
             diwataTimer.cancel();

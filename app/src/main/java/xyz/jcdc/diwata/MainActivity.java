@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onPathReceived(Path path) {
-                setPath(path);
+                if (path != null)
+                    setPath(path);
             }
         }).execute();
     }
@@ -160,7 +161,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onPathReceived(Path path) {
-                setPath(path);
+                if (path != null)
+                    setPath(path);
             }
         }, 2).execute();
     }

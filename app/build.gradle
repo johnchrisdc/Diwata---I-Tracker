@@ -8,7 +8,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 5
-        versionName "El Bimbo"
+        versionName "FruitCake"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -39,6 +39,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.takisoft.fix:preference-v7:25.3.1.0'
+    compile 'com.airbnb.android:lottie:2.0.0-beta4'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

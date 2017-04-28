@@ -2,6 +2,8 @@ package xyz.jcdc.diwata.model;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,7 +13,7 @@ import xyz.jcdc.diwata.Variables;
  * Created by jcdc on 4/22/17.
  */
 
-public class Path {
+public class Path implements Serializable {
 
     public interface PathListener {
         void onStartTracking();

@@ -4,11 +4,12 @@ package xyz.jcdc.diwata.model;
  * Created by jcdc on 4/22/17.
  */
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Geometry {
+public class Geometry implements Serializable {
 
     @SerializedName("type")
     @Expose

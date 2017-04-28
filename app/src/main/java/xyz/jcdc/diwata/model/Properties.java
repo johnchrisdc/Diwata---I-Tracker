@@ -7,7 +7,9 @@ package xyz.jcdc.diwata.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Properties {
+import java.io.Serializable;
+
+public class Properties implements Serializable {
 
     @SerializedName("timestamp")
     @Expose

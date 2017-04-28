@@ -8,12 +8,14 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import xyz.jcdc.diwata.Variables;
 
-public class Diwata {
+public class Diwata implements Serializable{
 
     public interface DiwataPositionListener {
         void onStartTracking();

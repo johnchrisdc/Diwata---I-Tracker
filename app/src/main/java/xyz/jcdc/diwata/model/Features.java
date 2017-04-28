@@ -1,10 +1,12 @@
 package xyz.jcdc.diwata.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jcdc on 4/22/17.
  */
 
-public class Features {
+public class Features implements Serializable {
 
     private Properties properties;
 

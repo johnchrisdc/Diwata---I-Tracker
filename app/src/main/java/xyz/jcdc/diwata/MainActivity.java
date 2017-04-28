@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private List<Polyline> polyline_diwata = new ArrayList<>();
 
+    private Path path, path2;
+
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
@@ -113,13 +115,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         diwataIcon = BitmapDescriptorFactory.fromResource(R.mipmap.marker_diwata);
 
-        materialDialog_position = new MaterialDialog.Builder(context)
-                .title("Please wait")
-                .content("Getting Diwata-I position")
-                .progress(true, 0)
-                .cancelable(false)
-                .canceledOnTouchOutside(false)
-                .show();
+        diwatang_ina = (Diwata) getIntent().getSerializableExtra(LoaderActivity.EXTRA_DIWATA);
+        path = (Path) getIntent().getSerializableExtra(LoaderActivity.EXTRA_PATH);
+        path2 = (Path) getIntent().getSerializableExtra(LoaderActivity.EXTRA_PATH_2);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -132,9 +130,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(
                 this, R.raw.lunar_landscape));
 
-        getDiwataPosition();
-        getPath();
-        getPath_2();
+        setDiwataPosition(diwatang_ina);
+        setPath(path);
+        setPath(path2);
     }
 
     private void getPath() {
@@ -190,15 +188,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onDiwataPositionReceived(Diwata diwata) {
-                if (materialDialog_position.isShowing()) {
-                    runOnUiThread(new TimerTask() {
-                        @Override
-                        public void run() {
-                            materialDialog_position.dismiss();
-                        }
-                    });
-                }
-
                 if (diwata != null) {
                     diwatang_ina = diwata;
 

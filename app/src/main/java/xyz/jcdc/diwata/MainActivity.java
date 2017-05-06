@@ -130,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(
                 this, R.raw.lunar_landscape));
 
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
+
         setDiwataPosition(diwatang_ina);
         setPath(path);
         setPath(path2);

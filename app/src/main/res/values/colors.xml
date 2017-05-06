@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#171717</color>
     <color name="colorAccent">#212121</color>
 
-    <color name="dilawan">#bcbcbc</color>
-    <color name="info_background">#c9212121</color>
+    <color name="dilawan">#6cbcbcbc</color>
+    <color name="info_background">@color/toolbar_background</color>
+
+    <color name="toolbar_background">#78212121</color>
 </resources>

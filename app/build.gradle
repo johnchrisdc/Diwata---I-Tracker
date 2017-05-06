@@ -7,8 +7,8 @@ android {
         applicationId "xyz.jcdc.diwata"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 6
-        versionName "FruitCake"
+        versionCode 7
+        versionName "GateKeeper"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

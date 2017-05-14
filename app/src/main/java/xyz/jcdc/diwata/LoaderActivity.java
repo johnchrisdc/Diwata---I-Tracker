@@ -63,6 +63,7 @@ public class LoaderActivity extends AppCompatActivity {
                 initializedTasks();
 
                 getDiwata.execute();
+                lottieAnimationView.playAnimation();
             }
         });
         errorSnackBar.show();

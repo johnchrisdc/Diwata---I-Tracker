@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         long unixTime = Math.round(diwata.getProperties().getTimestamp());
         Date time = new Date(unixTime * 1000);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, y hh:mm:ss a");
 
         diwata_pst.setText(dateFormat.format(time));
         diwata_latitude.setText( NumberHelper.toDecimalPlaces(diwata.getGeometry().getCoordinates().get(1)) );

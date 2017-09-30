@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Path path, path2;
 
+    private GetDiwata getDiwata;
+
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
@@ -182,7 +184,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void getDiwataPosition() {
-        new GetDiwata(new Diwata.DiwataPositionListener() {
+        if (getDiwata != null)
+            getDiwata.cancel(true);
+
+        getDiwata = new GetDiwata(new Diwata.DiwataPositionListener() {
             @Override
             public void onStartTracking() {
 
@@ -198,8 +203,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
 
             }
-        }).execute();
+        });
+
+        getDiwata.execute();
     }
+
+    private void killDiwata() {
+        if (getDiwata != null)
+            getDiwata.cancel(true);
+    }
+
 
     private void setDiwataPosition(Diwata diwata) {
 
@@ -323,9 +336,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        killDiwata(); //Dododododododooodouble kill
                         finish();
                     }
                 })
                 .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        killDiwata();
     }
 }

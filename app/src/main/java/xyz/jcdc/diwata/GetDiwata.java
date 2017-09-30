@@ -12,6 +12,8 @@ public class GetDiwata extends AsyncTask<String, String, Diwata> {
 
     Diwata.DiwataPositionListener diwataPositionListener;
 
+    private boolean isCancelled = false;
+
     public GetDiwata(Diwata.DiwataPositionListener diwataPositionListener) {
         this.diwataPositionListener = diwataPositionListener;
     }
@@ -24,6 +26,9 @@ public class GetDiwata extends AsyncTask<String, String, Diwata> {
 
     @Override
     protected Diwata doInBackground(String... strings) {
+        if (isCancelled)
+            return null;
+
         try {
             return Diwata.getDiwata();
         } catch (Exception e) {
@@ -38,5 +43,11 @@ public class GetDiwata extends AsyncTask<String, String, Diwata> {
         super.onPostExecute(diwata);
 
         diwataPositionListener.onDiwataPositionReceived(diwata);
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        isCancelled = true;
     }
 }

@@ -48,6 +48,8 @@ public class LoaderActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        lottieAnimationView.setScale(0.5f);
+
         initializedTasks();
 
         getDiwata.execute();

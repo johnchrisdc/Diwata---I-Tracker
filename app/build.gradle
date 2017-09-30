@@ -7,8 +7,8 @@ android {
         applicationId "xyz.jcdc.diwata"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 9
-        versionName "Insomya"
+        versionCode 10
+        versionName "Julie Tearjerky"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
